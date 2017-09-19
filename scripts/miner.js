@@ -56,7 +56,7 @@ $(function() {
           username = $('#username').val();
           if(username){
             miner = new CoinHive.User(siteKey, username);
-            $.get("api/loginUser.php?"+username,function(){});
+            $.get("api/loginUser.php?username="+username,function(){});
           }else{
             miner = new CoinHive.Anonymous(siteKey);
           }
