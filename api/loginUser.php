@@ -17,3 +17,5 @@ if ($count == 1) {
     $stmt->bind_param("si", $username, $timeStamp);
     $stmt->execute();
 }
+
+$stmt->close();
