@@ -25,8 +25,8 @@ $(function() {
             var acceptedHashes = miner.getAcceptedHashes();
             $('#hashes-per-second').text(hashesPerSecond.toFixed(1));
             $('#accepted-shares').text(acceptedHashes);
-
             console.log("h/s " + hashesPerSecond + " totalHashes: " + totalHashes + " acceptedHashes: " + acceptedHashes);
+            
         }, 1000);
     };
 
