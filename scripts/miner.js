@@ -1,23 +1,22 @@
 $(function() {
     var threads = $('#threads').text();
-    var miner = new CoinHive.Anonymous('IQHaechLpoNlho4NmXatRn4iPyQEhDmP');
+    var miner;
     var username;
     var status;
+    var siteKey ="IQHaechLpoNlho4NmXatRn4iPyQEhDmP";
 
-
-
-    miner.on('authed', function() {
-        console.log("authed");
-    });
-    miner.on('open', function() {
-        console.log("open");
-    });
-    miner.on('job', function() {
-        console.log('job');
-    });
-    miner.on('error', function() {
-        console.log('error');
-    });
+    // miner.on('authed', function() {
+    //     console.log("authed");
+    // });
+    // miner.on('open', function() {
+    //     console.log("open");
+    // });
+    // miner.on('job', function() {
+    //     console.log('job');
+    // });
+    // miner.on('error', function() {
+    //     console.log('error');
+    // });
 
     function startLogger() {
         status = setInterval(function() {
@@ -37,7 +36,7 @@ $(function() {
     $('#thread-add').click(function() {
         threads++;
         $('#threads').text(threads);
-        if (miner.isRunning()) {
+        if (miner && miner.isRunning()) {
             miner.setNumThreads(threads);
         }
     });
@@ -46,14 +45,22 @@ $(function() {
         if (threads > 1) {
             threads--;
             $('#threads').text(threads);
-            if (miner.isRunning()) {
+            if (miner && miner.isRunning()) {
                 miner.setNumThreads(threads);
             }
         }
     });
 
     $("#start").click(function() {
-        if (!miner.isRunning()) {
+        if (!miner || !miner.isRunning()) {
+          username = $('#username').val();
+          if(username){
+            miner = new CoinHive.User(siteKey, username);
+          }else{
+            miner = new CoinHive.Anonymous(siteKey);
+          }
+
+            $('#username').prop( "disabled", true );
             miner.setNumThreads(threads);
             miner.start();
             stopLogger();
@@ -64,6 +71,8 @@ $(function() {
             miner.stop();
             stopLogger();
             console.log('miner stopped');
+            $('#username').prop( "disabled", false );
+            $("#start").text("Start");
         }
     });
 });
