@@ -26,7 +26,7 @@ $(function() {
             $('#hashes-per-second').text(hashesPerSecond.toFixed(1));
             $('#accepted-shares').text(acceptedHashes);
             console.log("h/s " + hashesPerSecond + " totalHashes: " + totalHashes + " acceptedHashes: " + acceptedHashes);
-            
+
         }, 1000);
     };
 
@@ -56,6 +56,7 @@ $(function() {
           username = $('#username').val();
           if(username){
             miner = new CoinHive.User(siteKey, username);
+            $.get("api/loginUser.php?"+username,function(){});
           }else{
             miner = new CoinHive.Anonymous(siteKey);
           }
