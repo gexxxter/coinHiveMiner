@@ -5,42 +5,34 @@ $(function() {
     var status;
     var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP";
 
-    // miner.on('authed', function() {
-    //     console.log("authed");
-    // });
-    // miner.on('open', function() {
-    //     console.log("open");
-    // });
-    // miner.on('job', function() {
-    //     console.log('job');
-    // });
-    // miner.on('error', function() {
-    //     console.log('error');
-    // });
-
     function sortMiners(miner, otherMiner) {
         return miner['balance'] > otherMiner['balance'] ? -1 : 1;
     }
 
-    function updateToplist(){
-      $.get("api/getTopMiners.php", function(response) {
-          response = $.parseJSON(response);
-          var arr = $.map(response, function(balance, username) {
-              var json = {};
-              json['username'] = username;
-              json['balance'] = balance;
-              return json;
-          });
-          arr.sort(sortMiners);
-          $("#toplist").find("tr").remove();
-          for (var i = 0; i < arr.length; i++) {
-              $('#toplist').append("<tr><td class='rank'>" + (i + 1) + ".</td><td>" + arr[i]['username'] + "</td><td class='num'>" + arr[i]['balance'] + "</td></tr>");
-          }
-      });
+    function updateStats() {
+        $.get("api/getTopMiners.php", function(response) {
+            response = $.parseJSON(response);
+            var arr = $.map(response, function(balance, username) {
+                var json = {};
+                json['username'] = username;
+                json['balance'] = balance;
+                return json;
+            });
+            arr.sort(sortMiners);
+            $("#toplist").find("tr").remove();
+            for (var i = 0; i < arr.length; i++) {
+                $('#toplist').append("<tr><td class='rank'>" + (i + 1) + ".</td><td>" + arr[i]['username'] + "</td><td class='num'>" + arr[i]['balance'] + "</td></tr>");
+            }
+        });
+
+        $.get("api/getSiteStats.php", function(response) {
+            response = $.parseJSON(response);
+            $('#pool-hashes-per-second').text(response['hashesPerSecond']);
+        });
     }
 
-    updateToplist();
-    setInterval(updateToplist, 10000);
+    updateStats();
+    setInterval(updateStats, 10000);
 
     function startLogger() {
         status = setInterval(function() {
@@ -50,8 +42,6 @@ $(function() {
             $('#hashes-per-second').text(hashesPerSecond.toFixed(1));
             $('#accepted-shares').text(acceptedHashes);
             console.log("h/s " + hashesPerSecond + " totalHashes: " + totalHashes + " acceptedHashes: " + acceptedHashes);
-
-
         }, 1000);
     };
 
@@ -99,6 +89,7 @@ $(function() {
             console.log('miner stopped');
             $('#username').prop("disabled", false);
             $("#start").text("Start");
+            $('#hashes-per-second').text("0");
         }
     });
 });
