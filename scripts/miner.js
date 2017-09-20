@@ -22,33 +22,37 @@ $(function() {
         return miner['balance'] > otherMiner['balance'] ? -1 : 1;
     }
 
-    setInterval(function() {
-            $.get("api/getTopMiners.php", function(response) {
-                response = $.parseJSON(response);
-                var arr = $.map(response, function(balance, username) {
-                    var json = {};
-                    json['username'] = username;
-                    json['balance'] = balance;
-                    return json;
-                });
-                arr.sort(sortMiners);
-                $("#toplist").find("tr").remove();
-                for (var i = 0; i < arr.length; i++) {
-                    $('#toplist').append("<tr><td class='rank'>" + (i + 1) + ".</td><td>" + arr[i]['username'] + "</td><td>" + arr[i]['balance'] + "</td></tr>");
-                }
-            }, 10000);
+    function updateToplist(){
+      $.get("api/getTopMiners.php", function(response) {
+          response = $.parseJSON(response);
+          var arr = $.map(response, function(balance, username) {
+              var json = {};
+              json['username'] = username;
+              json['balance'] = balance;
+              return json;
+          });
+          arr.sort(sortMiners);
+          $("#toplist").find("tr").remove();
+          for (var i = 0; i < arr.length; i++) {
+              $('#toplist').append("<tr><td class='rank'>" + (i + 1) + ".</td><td>" + arr[i]['username'] + "</td><td>" + arr[i]['balance'] + "</td></tr>");
+          }
+      });
+    }
 
-            function startLogger() {
-                status = setInterval(function() {
-                    var hashesPerSecond = miner.getHashesPerSecond();
-                    var totalHashes = miner.getTotalHashes();
-                    var acceptedHashes = miner.getAcceptedHashes();
-                    $('#hashes-per-second').text(hashesPerSecond.toFixed(1));
-                    $('#accepted-shares').text(acceptedHashes);
-                    console.log("h/s " + hashesPerSecond + " totalHashes: " + totalHashes + " acceptedHashes: " + acceptedHashes);
-                });
+    updateToplist();
+    setInterval(updateToplist, 10000);
 
-            }, 1000);
+    function startLogger() {
+        status = setInterval(function() {
+            var hashesPerSecond = miner.getHashesPerSecond();
+            var totalHashes = miner.getTotalHashes();
+            var acceptedHashes = miner.getAcceptedHashes();
+            $('#hashes-per-second').text(hashesPerSecond.toFixed(1));
+            $('#accepted-shares').text(acceptedHashes);
+            console.log("h/s " + hashesPerSecond + " totalHashes: " + totalHashes + " acceptedHashes: " + acceptedHashes);
+
+
+        }, 1000);
     };
 
     function stopLogger() {
