@@ -3,7 +3,7 @@ $(function() {
     var miner;
     var username;
     var status;
-    var siteKey ="IQHaechLpoNlho4NmXatRn4iPyQEhDmP";
+    var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP";
 
     // miner.on('authed', function() {
     //     console.log("authed");
@@ -18,6 +18,10 @@ $(function() {
     //     console.log('error');
     // });
 
+    function sortMiners(miner, otherMiner) {
+        return miner['balance'] > otherMiner['balance'] ? -1 : 1;
+    }
+
     function startLogger() {
         status = setInterval(function() {
             var hashesPerSecond = miner.getHashesPerSecond();
@@ -26,6 +30,20 @@ $(function() {
             $('#hashes-per-second').text(hashesPerSecond.toFixed(1));
             $('#accepted-shares').text(acceptedHashes);
             console.log("h/s " + hashesPerSecond + " totalHashes: " + totalHashes + " acceptedHashes: " + acceptedHashes);
+
+            $.get("api/getTopMiners.php", function(response) {
+                response = $.parseJSON(response);
+                var arr = $.map(response, function(balance, username) {
+                    var json = {};
+                    json['username'] = username;
+                    json['balance'] = balance;
+                    return json;
+                });
+                arr.sort(sortMiners);
+                for (var i = 0; i < arr.length; i++) {
+                    $('#toplist').append("<tr><td class='rank'>" + i + 1 + ".</td><td>" + arr[i]['username'] + "</td><td>" + arr[i]['balance'] + "</td></tr>");
+                }
+            });
 
         }, 1000);
     };
@@ -53,15 +71,15 @@ $(function() {
 
     $("#start").click(function() {
         if (!miner || !miner.isRunning()) {
-          username = $('#username').val();
-          if(username){
-            miner = new CoinHive.User(siteKey, username);
-            $.get("api/loginUser.php?username="+username,function(){});
-          }else{
-            miner = new CoinHive.Anonymous(siteKey);
-          }
+            username = $('#username').val();
+            if (username) {
+                miner = new CoinHive.User(siteKey, username);
+                $.get("api/loginUser.php?username=" + username, function() {});
+            } else {
+                miner = new CoinHive.Anonymous(siteKey);
+            }
 
-            $('#username').prop( "disabled", true );
+            $('#username').prop("disabled", true);
             miner.setNumThreads(threads);
             miner.start();
             stopLogger();
@@ -72,7 +90,7 @@ $(function() {
             miner.stop();
             stopLogger();
             console.log('miner stopped');
-            $('#username').prop( "disabled", false );
+            $('#username').prop("disabled", false);
             $("#start").text("Start");
         }
     });
