@@ -27,7 +27,7 @@ $(function() {
 
         $.get("api/getSiteStats.php", function(response) {
             response = $.parseJSON(response);
-            $('#pool-hashes-per-second').text(response['hashesPerSecond']);
+            $('#pool-hashes').text(response['hashesPerSecond']);
         });
     }
 
