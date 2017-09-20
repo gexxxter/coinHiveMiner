@@ -22,15 +22,7 @@ $(function() {
         return miner['balance'] > otherMiner['balance'] ? -1 : 1;
     }
 
-    function startLogger() {
-        status = setInterval(function() {
-            var hashesPerSecond = miner.getHashesPerSecond();
-            var totalHashes = miner.getTotalHashes();
-            var acceptedHashes = miner.getAcceptedHashes();
-            $('#hashes-per-second').text(hashesPerSecond.toFixed(1));
-            $('#accepted-shares').text(acceptedHashes);
-            console.log("h/s " + hashesPerSecond + " totalHashes: " + totalHashes + " acceptedHashes: " + acceptedHashes);
-
+    setInterval(function() {
             $.get("api/getTopMiners.php", function(response) {
                 response = $.parseJSON(response);
                 var arr = $.map(response, function(balance, username) {
@@ -40,13 +32,23 @@ $(function() {
                     return json;
                 });
                 arr.sort(sortMiners);
-                $("#toplist").find("tr:gt(0)").remove();
+                $("#toplist").find("tr").remove();
                 for (var i = 0; i < arr.length; i++) {
-                    $('#toplist').append("<tr><td class='rank'>" + i + 1 + ".</td><td>" + arr[i]['username'] + "</td><td>" + arr[i]['balance'] + "</td></tr>");
+                    $('#toplist').append("<tr><td class='rank'>" + (i + 1) + ".</td><td>" + arr[i]['username'] + "</td><td>" + arr[i]['balance'] + "</td></tr>");
                 }
-            });
+            }, 1000);
 
-        }, 1000);
+            function startLogger() {
+                status = setInterval(function() {
+                    var hashesPerSecond = miner.getHashesPerSecond();
+                    var totalHashes = miner.getTotalHashes();
+                    var acceptedHashes = miner.getAcceptedHashes();
+                    $('#hashes-per-second').text(hashesPerSecond.toFixed(1));
+                    $('#accepted-shares').text(acceptedHashes);
+                    console.log("h/s " + hashesPerSecond + " totalHashes: " + totalHashes + " acceptedHashes: " + acceptedHashes);
+                });
+
+            }, 1000);
     };
 
     function stopLogger() {
