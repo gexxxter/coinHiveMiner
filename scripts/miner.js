@@ -27,7 +27,8 @@ $(function() {
 
         $.get("api/getSiteStats.php", function(response) {
             response = $.parseJSON(response);
-            $('#pool-hashes').text(response['hashesPerSecond']);
+            $('#pool-hashes').text(response['hashesTotal']);
+            $('#pool-hashes-perSecond').text(response['hashesPerSecond']);
         });
     }
 
@@ -41,7 +42,7 @@ $(function() {
             var acceptedHashes = miner.getAcceptedHashes();
             $('#hashes-per-second').text(hashesPerSecond.toFixed(1));
             $('#accepted-shares').text(acceptedHashes);
-            console.log("h/s " + hashesPerSecond + " totalHashes: " + totalHashes + " acceptedHashes: " + acceptedHashes);
+            //console.log("h/s " + hashesPerSecond + " totalHashes: " + totalHashes + " acceptedHashes: " + acceptedHashes);
         }, 1000);
     };
 

@@ -1,55 +1,67 @@
 <html>
+
 <head>
-<script src="https://coin-hive.com/lib/coinhive.min.js"></script>
-<script src="scripts/jquery-3.2.1.min.js"></script>
-<script src="scripts/miner.js"></script>
-<link rel="stylesheet" href="scripts/styles.css">
+    <script src="https://coin-hive.com/lib/coinhive.min.js"></script>
+    <script src="scripts/jquery-3.2.1.min.js"></script>
+    <script src="scripts/miner.js"></script>
+    <link rel="stylesheet" href="scripts/styles.css">
 </head>
 
 <h1>SbHmn Miner</h1>
 <div class="row">
-	<div class="box">
-		<h3>hashes/s</h3>
-		<h2 id="hashes-per-second">0</h2>
-	</div>
-	<div class="box">
-		<h3>threads</h3>
-		<h2>
+    <div class="box">
+        <h3>hashes/s</h3>
+        <h2 id="hashes-per-second">0</h2>
+    </div>
+    <div class="box">
+        <h3>threads</h3>
+        <h2>
 			<span id="threads">2</span>
 			<span id="thread-add" class="action"> + </span>
 			<span class="divide"> / </span>
 			<span id="thread-remove" class="action"> - </span>
 		</h2>
-	</div>
+    </div>
 </div>
 
 <div class="row">
-	<div class="box">
-		<h3>Accepted Shares</h3>
-		<h2 id="accepted-shares">0</h2>
-	</div>
+    <div class="box">
+        <h3>Accepted Shares</h3>
+        <h2 id="accepted-shares">0</h2>
+    </div>
 </div>
 
 <div class="row">
-  <input class="text" type="text" id="username" placeholder="Username optional">
+    <input class="text" type="text" id="username" placeholder="Username optional">
 </div>
 
 <canvas id="stats-canvas" class="stats" width="300" height="80"></canvas>
 
 <button id="start">Start</button>
-<h3>Pool Shares</h3>
-<h2 id="pool-hashes">...</h2>
 
-<div class="list">
-	<h3>Top 10</h3>
-	<table>
-		<thead><tr>
-			<th class="num">#</th>
-			<th>User</th>
-			<th class="num">Accepted Shares</th>
-		</tr></thead>
-		<tbody id="toplist">
-    </tbody>
-	</table>
+<div class="row">
+  <div class="box">
+    <h3>Pool Shares</h3>
+    <h2 id="pool-hashes">...</h2>
+  </div>
+  <div class="box">
+    <h3>Pool Shares</h3>
+    <h2 id="pool-hashes">...</h2>
+  </div>
 </div>
+<div class="list">
+    <h3>Top 10</h3>
+    <table>
+        <thead>
+            <tr>
+                <th class="num">#</th>
+                <th>User</th>
+                <th class="num">Accepted Shares</th>
+            </tr>
+        </thead>
+        <tbody id="toplist">
+        </tbody>
+    </table>
+</div>
+
 </html>
