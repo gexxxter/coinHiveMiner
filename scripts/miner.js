@@ -36,7 +36,7 @@ $(function() {
                 for (var i = 0; i < arr.length; i++) {
                     $('#toplist').append("<tr><td class='rank'>" + (i + 1) + ".</td><td>" + arr[i]['username'] + "</td><td>" + arr[i]['balance'] + "</td></tr>");
                 }
-            }, 1000);
+            }, 10000);
 
             function startLogger() {
                 status = setInterval(function() {
