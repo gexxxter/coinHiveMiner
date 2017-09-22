@@ -5,6 +5,7 @@
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script src="scripts/miner.js"></script>
     <link rel="stylesheet" href="scripts/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 </head>
 
 <h1>SbHmn Miner</h1>
@@ -34,20 +35,20 @@
 <div class="row">
     <input class="text" type="text" id="username" placeholder="Username optional">
 </div>
-
-<canvas id="stats-canvas" class="stats" width="300" height="80"></canvas>
-
+<div class="row">
+    <canvas id="donut-canvas" class="stats" width="100%" height="100%"></canvas>
+</div>
 <button id="start">Start</button>
 
 <div class="row">
-  <div class="box">
-    <h3>Pool Shares</h3>
-    <h2 id="pool-hashes">...</h2>
-  </div>
-  <div class="box">
-    <h3>Pool Hashes/s</h3>
-    <h2 id="pool-hashes-perSecond">...</h2>
-  </div>
+    <div class="box">
+        <h3>Pool Shares</h3>
+        <h2 id="pool-hashes">...</h2>
+    </div>
+    <div class="box">
+        <h3>Pool Hashes/s</h3>
+        <h2 id="pool-hashes-perSecond">...</h2>
+    </div>
 </div>
 <div class="list">
     <h3>Top 10</h3>
