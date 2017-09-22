@@ -5,7 +5,7 @@ $(function() {
     var status;
     var statsLabels;
     var statsData;
-    var donutChart;
+    var doughnutChart;
     var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
 
     function sortMiners(miner, otherMiner) {
@@ -28,16 +28,16 @@ $(function() {
                 var username = arr[i]['username'];
                 var balance = arr[i]['balance'];
                 $('#toplist').append("<tr><td class='rank'>" + escape((i + 1)) + ".</td><td>" + escape(username) + "</td><td class='num'>" + escape(balance) + "</td></tr>");
-                var index = donutChart.data.labels.indexOf(username);
+                var index = doughnutChart.data.labels.indexOf(username);
                 if (index != -1) {
                     //change existing
-                    donutChart.data.datasets[0].data[index] = balance;
+                    doughnutChart.data.datasets[0].data[index] = balance;
                 } else {
                     //new data
-                    donutChart.data.datasets[0].data.push(balance);
-                    donutChart.data.labels.push(username);
+                    doughnutChart.data.datasets[0].data.push(balance);
+                    doughnutChart.data.labels.push(username);
                 }
-                donutChart.update();
+                doughnutChart.update();
             }
 
         });
@@ -109,31 +109,45 @@ $(function() {
             $('#hashes-per-second').text("0");
         }
     });
-    var donutCanvas = $("#donut-canvas");
-//    statsLabels = ["SlaxXx", "Murieta", "Morghath", "Froschkoenigin", "GexXxter"];
-//    statsData = [12, 19, 4, 8, 1177];
-
+    var doughtCanvas = $("#donut-canvas");
+    statsLabels = ["SlaxXx", "Murieta", "Morghath", "Froschkoenigin", "GexXxter"];
+    statsData = [12, 19, 4, 8, 1177];
+    var options = {
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Submitted Shares Distribution'
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        };
     var dataset = {
         labels: statsLabels,
         datasets: [{
             data: statsData,
             backgroundColor: [
-                'LIME',
-                'AQUA',
-                'GRAY',
-                'TEAL',
-                'LIGHTBLUE',
-                'PURPLE',
-                'SILVER',
-                'MAROON',
-                'YELLOW',
-                'OLIVE'
+                '#008000', //GREEN
+                '#00FFFF', //AQUA
+                '#808080', //GRAY
+                '#008080', //TEAL
+                '#ADD8E6', //LIGHTBLUE
+                '#800080', //PURPLE
+                '#C0C0C0', //SILVER
+                '#800000', //MAROON
+                '#FFFF00', //YELLOW
+                '#808000' //OLIVE
             ]
         }]
     }
-    donutChart = new Chart(donutCanvas, {
+    doughnutChart = new Chart(doughtCanvas, {
         type: 'doughnut',
-        data: dataset
+        data: dataset,
+        options: options
     });
     updateStats();
 
