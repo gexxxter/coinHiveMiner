@@ -1,4 +1,5 @@
 <?php
+/* Broken don´t use it
 include "../api/dbConnect.php";
 
 $stmt = $con->prepare("SELECT username from user");
@@ -21,3 +22,4 @@ while ($stmt->fetch()) {
   //var_dump($result);
 }
 $stmt->close();
+*/
