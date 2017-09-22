@@ -110,8 +110,8 @@ $(function() {
         }
     });
     var doughtCanvas = $("#donut-canvas");
-    statsLabels = ["SlaxXx", "Murieta", "Morghath", "Froschkoenigin", "GexXxter"];
-    statsData = [12, 19, 4, 8, 1177];
+    //statsLabels = ["SlaxXx", "Murieta", "Morghath", "Froschkoenigin", "GexXxter"];
+    //statsData = [12, 19, 4, 8, 1177];
     var options = {
             responsive: true,
             legend: {
