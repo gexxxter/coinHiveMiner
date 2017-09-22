@@ -22,7 +22,7 @@ $(function() {
             arr.splice(9);
             $("#toplist").find("tr").remove();
             for (var i = 0; i < arr.length; i++) {
-                $('#toplist').append("<tr><td class='rank'>" + (i + 1) + ".</td><td>" + arr[i]['username'] + "</td><td class='num'>" + arr[i]['balance'] + "</td></tr>");
+                $('#toplist').append("<tr><td class='rank'>" + escape((i + 1)) + ".</td><td>" + escape(arr[i]['username']) + "</td><td class='num'>" + escape(arr[i]['balance']) + "</td></tr>");
             }
         });
 
