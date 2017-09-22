@@ -35,7 +35,7 @@ $(function() {
                 } else {
                     //new data
                     donutChart.data.datasets[0].data.push(balance);
-                    donutChart.data.datasets[0].labels.push(username);
+                    donutChart.data.labels.push(username);
                 }
                 donutChart.update();
             }
@@ -110,8 +110,8 @@ $(function() {
         }
     });
     var donutCanvas = $("#donut-canvas");
-    statsLabels = ["SlaxXx", "Murieta", "Morghath", "Froschkoenigin", "GexXxter"];
-    statsData = [12, 19, 4, 8, 1177];
+//    statsLabels = ["SlaxXx", "Murieta", "Morghath", "Froschkoenigin", "GexXxter"];
+//    statsData = [12, 19, 4, 8, 1177];
 
     var dataset = {
         labels: statsLabels,
