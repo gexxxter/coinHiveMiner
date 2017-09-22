@@ -19,7 +19,7 @@ $(function() {
                 return json;
             });
             arr.sort(sortMiners);
-            arr.splice(9);
+            arr.splice(10);
             $("#toplist").find("tr").remove();
             for (var i = 0; i < arr.length; i++) {
                 $('#toplist').append("<tr><td class='rank'>" + escape((i + 1)) + ".</td><td>" + escape(arr[i]['username']) + "</td><td class='num'>" + escape(arr[i]['balance']) + "</td></tr>");
@@ -94,7 +94,7 @@ $(function() {
             $('#hashes-per-second').text("0");
         }
     });
-    var donutCanvas = $("#donut-canvas");
+    /*var donutCanvas = $("#donut-canvas");
     var labels = ["SlaxXx","Murieta","Morghath","Froschkoenigin","GexXxter"];
     var data = [12,19,4,8,1177];
 
@@ -117,12 +117,12 @@ $(function() {
         ]
       }]
     }
-    var donutChart = new Chart(donutCanvas,{
-      type: 'doughnut',
-      data: dataset
-    });
+     var donutChart = new Chart(donutCanvas,{
+       type: 'doughnut',
+       data: dataset
+     });
     donutChart.data.labels.push("Teeest");
     donutChart.update();
-
+    */
 
 });
