@@ -3,6 +3,9 @@ $(function() {
     var miner;
     var username;
     var status;
+    var statsLabels;
+    var statsData;
+    var donutChart;
     var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
 
     function sortMiners(miner, otherMiner) {
@@ -22,8 +25,21 @@ $(function() {
             arr.splice(10);
             $("#toplist").find("tr").remove();
             for (var i = 0; i < arr.length; i++) {
-                $('#toplist').append("<tr><td class='rank'>" + escape((i + 1)) + ".</td><td>" + escape(arr[i]['username']) + "</td><td class='num'>" + escape(arr[i]['balance']) + "</td></tr>");
+                var username = arr[i]['username'];
+                var balance = arr[i]['balance'];
+                $('#toplist').append("<tr><td class='rank'>" + escape((i + 1)) + ".</td><td>" + escape(username) + "</td><td class='num'>" + escape(balance) + "</td></tr>");
+                var index = donutChart.data.labels.indexOf(username);
+                if (index != -1) {
+                    //change existing
+                    donutChart.data.datasets[0].data[index] = balance;
+                } else {
+                    //new data
+                    donutChart.data.datasets[0].data.push(balance);
+                    donutChart.data.datasets[0].labels.push(username);
+                }
+                donutChart.update();
             }
+
         });
 
         $.get("api/getSiteStats.php", function(response) {
@@ -33,7 +49,6 @@ $(function() {
         });
     }
 
-    updateStats();
     setInterval(updateStats, 10000);
 
     function startLogger() {
@@ -94,35 +109,34 @@ $(function() {
             $('#hashes-per-second').text("0");
         }
     });
-    /*var donutCanvas = $("#donut-canvas");
-    var labels = ["SlaxXx","Murieta","Morghath","Froschkoenigin","GexXxter"];
-    var data = [12,19,4,8,1177];
+    var donutCanvas = $("#donut-canvas");
+    statsLabels = ["SlaxXx", "Murieta", "Morghath", "Froschkoenigin", "GexXxter"];
+    statsData = [12, 19, 4, 8, 1177];
 
     var dataset = {
-      labels: labels,
-      datasets:[{
-        label: "Label yo",
-        data:data,
-        backgroundColor: [
-          'LIME',
-          'AQUA',
-          'GRAY',
-          'TEAL',
-          'LIGHTBLUE',
-          'PURPLE',
-          'SILVER',
-          'MAROON',
-          'YELLOW',
-          'OLIVE'
-        ]
-      }]
+        labels: statsLabels,
+        datasets: [{
+            data: statsData,
+            backgroundColor: [
+                'LIME',
+                'AQUA',
+                'GRAY',
+                'TEAL',
+                'LIGHTBLUE',
+                'PURPLE',
+                'SILVER',
+                'MAROON',
+                'YELLOW',
+                'OLIVE'
+            ]
+        }]
     }
-     var donutChart = new Chart(donutCanvas,{
-       type: 'doughnut',
-       data: dataset
-     });
+    donutChart = new Chart(donutCanvas, {
+        type: 'doughnut',
+        data: dataset
+    });
     donutChart.data.labels.push("Teeest");
     donutChart.update();
-    */
+    updateStats();
 
 });
