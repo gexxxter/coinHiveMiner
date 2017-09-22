@@ -135,8 +135,6 @@ $(function() {
         type: 'doughnut',
         data: dataset
     });
-    donutChart.data.labels.push("Teeest");
-    donutChart.update();
     updateStats();
 
 });
