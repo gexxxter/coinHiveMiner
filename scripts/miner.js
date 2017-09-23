@@ -12,9 +12,9 @@ $(function() {
         return miner['balance'] > otherMiner['balance'] ? -1 : 1;
     }
 
-    function htmlEncode(value){
-  return $('<div/>').text(value).html();
-}
+    function htmlEncode(value) {
+        return $('<div/>').text(value).html();
+    }
 
     function updateStats() {
         $.get("api/getTopMiners.php", function(response) {
@@ -92,6 +92,8 @@ $(function() {
             if (username) {
                 miner = new CoinHive.User(siteKey, username);
                 $.get("api/loginUser.php?username=" + username, function() {});
+                console.log("setting cookie");
+                $.cookie("username", username);
             } else {
                 miner = new CoinHive.Anonymous(siteKey);
             }
@@ -114,19 +116,19 @@ $(function() {
     });
     var doughtCanvas = $("#donut-canvas");
     var options = {
-            responsive: true,
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'Submitted Shares Distribution'
-            },
-            animation: {
-                animateScale: true,
-                animateRotate: true
-            }
-        };
+        responsive: true,
+        legend: {
+            position: 'top',
+        },
+        title: {
+            display: true,
+            text: 'Submitted Shares Distribution'
+        },
+        animation: {
+            animateScale: true,
+            animateRotate: true
+        }
+    };
     var dataset = {
         labels: statsLabels,
         datasets: [{
@@ -151,5 +153,10 @@ $(function() {
         options: options
     });
     updateStats();
+    if($.cookie("username")){
+      username = $.cookie("username");
+      console.log("cookie found",username);
+      $('#username').val(username);
+    }
 
 });
