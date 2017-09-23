@@ -19,18 +19,18 @@ $(function() {
     function updateStats() {
         $.get("api/getTopMiners.php", function(response) {
             response = $.parseJSON(response);
-            var arr = $.map(response, function(balance, username) {
+            var miners = $.map(response, function(balance, username) {
                 var json = {};
                 json['username'] = username;
                 json['balance'] = balance;
                 return json;
             });
-            arr.sort(sortMiners);
-            arr.splice(10);
+            miners.sort(sortMiners);
+            miners.splice(10);
             $("#toplist").find("tr").remove();
-            for (var i = 0; i < arr.length; i++) {
-                var username = arr[i]['username'];
-                var balance = arr[i]['balance'];
+            for (var i = 0; i < miners.length; i++) {
+                var username = miners[i]['username'];
+                var balance = miners[i]['balance'];
                 $('#toplist').append("<tr><td class='rank'>" + escape((i + 1)) + ".</td><td>" + htmlEncode(username) + "</td><td class='num'>" + htmlEncode(balance) + "</td></tr>");
                 var index = doughnutChart.data.labels.indexOf(username);
                 if (index != -1) {
@@ -62,7 +62,6 @@ $(function() {
             var acceptedHashes = miner.getAcceptedHashes();
             $('#hashes-per-second').text(hashesPerSecond.toFixed(1));
             $('#accepted-shares').text(acceptedHashes);
-            //console.log("h/s " + hashesPerSecond + " totalHashes: " + totalHashes + " acceptedHashes: " + acceptedHashes);
         }, 1000);
     };
 
@@ -114,8 +113,6 @@ $(function() {
         }
     });
     var doughtCanvas = $("#donut-canvas");
-    //statsLabels = ["SlaxXx", "Murieta", "Morghath", "Froschkoenigin", "GexXxter"];
-    //statsData = [12, 19, 4, 8, 1177];
     var options = {
             responsive: true,
             legend: {
