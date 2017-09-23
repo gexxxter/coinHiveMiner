@@ -27,7 +27,8 @@ $(function() {
             for (var i = 0; i < arr.length; i++) {
                 var username = arr[i]['username'];
                 var balance = arr[i]['balance'];
-                $('#toplist').append("<tr><td class='rank'>" + escape((i + 1)) + ".</td><td>" + escape(username) + "</td><td class='num'>" + escape(balance) + "</td></tr>");
+                //$('#toplist').append("<tr><td class='rank'>" + escape((i + 1)) + ".</td><td>" + escape(username) + "</td><td class='num'>" + escape(balance) + "</td></tr>");
+                $('#toplist').append("<tr><td class='rank'>" + $('td').text(i+1).html() + ".</td>" + $('td').text(username).html() + $('td').text(balance).text + "</tr>");
                 var index = doughnutChart.data.labels.indexOf(username);
                 if (index != -1) {
                     //change existing
