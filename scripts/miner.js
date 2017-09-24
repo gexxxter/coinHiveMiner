@@ -13,7 +13,7 @@ $(function() {
     }
 
     function shortenString(text) {
-        if (text.length >= 10) {
+        if (text.length >= 30) {
             return text.substring(0, 30)+'...';
         } else {
             return text;
