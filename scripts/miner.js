@@ -8,10 +8,6 @@ $(function() {
     var doughnutChart;
     var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
 
-    function sortMiners(miner, otherMiner) {
-        return miner['balance'] > otherMiner['balance'] ? -1 : 1;
-    }
-
     function htmlEncode(value) {
         return $('<div/>').text(value).html();
     }
@@ -25,8 +21,6 @@ $(function() {
                 json['balance'] = balance;
                 return json;
             });
-            miners.sort(sortMiners);
-            miners.splice(10);
             $("#toplist").find("tr").remove();
             for (var i = 0; i < miners.length; i++) {
                 var username = miners[i]['username'];

@@ -19,12 +19,9 @@ foreach ($usernames as $username) {
   ));
   $result = curl_exec($curl);
   $json = json_decode($result, true);
-  
+
   $stmt = $con->prepare("UPDATE user SET balance = ? WHERE username=?");
   $stmt->bind_param("is", $json['balance'], $username);
   $stmt->execute();
   $stmt->close();
-
-  //var_dump($result);
 }
-
