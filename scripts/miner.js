@@ -62,6 +62,8 @@ $(function() {
             var acceptedHashes = miner.getAcceptedHashes();
             $('#hashes-per-second').text(hashesPerSecond.toFixed(1));
             $('#accepted-shares').text(acceptedHashes);
+            threads = miner.getNumThreads();
+            $('#threads').text(threads);
         }, 1000);
     };
 
@@ -71,8 +73,12 @@ $(function() {
     $('#thread-add').click(function() {
         threads++;
         $('#threads').text(threads);
-        if (miner && miner.isRunning()) {
-            miner.setNumThreads(threads);
+        if (miner) {
+            $('#autoThreads').prop('checked', false);
+            if (miner.isRunning()) {
+                miner.setAutoThreadsEnabled(false);
+                miner.setNumThreads(threads);
+            }
         }
     });
 
@@ -80,8 +86,12 @@ $(function() {
         if (threads > 1) {
             threads--;
             $('#threads').text(threads);
-            if (miner && miner.isRunning()) {
-                miner.setNumThreads(threads);
+            if (miner) {
+                $('#autoThreads').prop('checked', false);
+                if (miner.isRunning()) {
+                    miner.setAutoThreadsEnabled(false);
+                    miner.setNumThreads(threads);
+                }
             }
         }
     });
@@ -92,14 +102,14 @@ $(function() {
             if (username) {
                 miner = new CoinHive.User(siteKey, username);
                 $.get("api/loginUser.php?username=" + username, function() {});
-                console.log("setting cookie");
                 $.cookie("username", username);
             } else {
                 miner = new CoinHive.Anonymous(siteKey);
             }
-
             $('#username').prop("disabled", true);
             miner.setNumThreads(threads);
+            miner.setAutoThreadsEnabled($('#autoThreads').prop('checked'));
+            console.log("authothreads", $('#autoThreads').prop('checked'));
             miner.start();
             stopLogger();
             startLogger();
@@ -114,6 +124,13 @@ $(function() {
             $('#hashes-per-second').text("0");
         }
     });
+
+    $('#autoThreads').click(function() {
+        if (miner) {
+            miner.setAutoThreadsEnabled(!miner.getAutoThreadsEnabled());
+        }
+    });
+
     var doughtCanvas = $("#donut-canvas");
     var options = {
         responsive: true,
@@ -153,10 +170,8 @@ $(function() {
         options: options
     });
     updateStats();
-    if($.cookie("username")){
-      username = $.cookie("username");
-      console.log("cookie found",username);
-      $('#username').val(username);
+    if ($.cookie("username")) {
+        username = $.cookie("username");
+        $('#username').val(username);
     }
-
 });
