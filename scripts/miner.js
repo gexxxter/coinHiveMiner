@@ -8,13 +8,17 @@ $(function() {
     var doughnutChart;
     var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
 
-    function sortMiners(miner, otherMiner) {
-        return miner['balance'] > otherMiner['balance'] ? -1 : 1;
+    function htmlEncode(value) {
+        return $('<div/>').text(value).html();
     }
 
-    function htmlEncode(value){
-  return $('<div/>').text(value).html();
-}
+    function shortenString(text) {
+        if (text.length >= 30) {
+            return text.substring(0, 30)+'...';
+        } else {
+            return text;
+        }
+    }
 
     function updateStats() {
         $.get("api/getTopMiners.php", function(response) {
@@ -25,21 +29,19 @@ $(function() {
                 json['balance'] = balance;
                 return json;
             });
-            miners.sort(sortMiners);
-            miners.splice(10);
             $("#toplist").find("tr").remove();
             for (var i = 0; i < miners.length; i++) {
                 var username = miners[i]['username'];
                 var balance = miners[i]['balance'];
-                $('#toplist').append("<tr><td class='rank'>" + escape((i + 1)) + ".</td><td>" + htmlEncode(username) + "</td><td class='num'>" + htmlEncode(balance) + "</td></tr>");
-                var index = doughnutChart.data.labels.indexOf(username);
+                $('#toplist').append("<tr><td class='rank'>" + htmlEncode((i + 1)) + ".</td><td>" + htmlEncode(shortenString(username)) + "</td><td class='num'>" + htmlEncode(balance) + "</td></tr>");
+                var index = doughnutChart.data.labels.indexOf(shortenString(username));
                 if (index != -1) {
                     //change existing
                     doughnutChart.data.datasets[0].data[index] = balance;
                 } else {
                     //new data
                     doughnutChart.data.datasets[0].data.push(balance);
-                    doughnutChart.data.labels.push(username);
+                    doughnutChart.data.labels.push(shortenString(username));
                 }
                 doughnutChart.update();
             }
@@ -62,6 +64,8 @@ $(function() {
             var acceptedHashes = miner.getAcceptedHashes();
             $('#hashes-per-second').text(hashesPerSecond.toFixed(1));
             $('#accepted-shares').text(acceptedHashes);
+            threads = miner.getNumThreads();
+            $('#threads').text(threads);
         }, 1000);
     };
 
@@ -71,8 +75,12 @@ $(function() {
     $('#thread-add').click(function() {
         threads++;
         $('#threads').text(threads);
-        if (miner && miner.isRunning()) {
-            miner.setNumThreads(threads);
+        if (miner) {
+            $('#autoThreads').prop('checked', false);
+            if (miner.isRunning()) {
+                miner.setAutoThreadsEnabled(false);
+                miner.setNumThreads(threads);
+            }
         }
     });
 
@@ -80,8 +88,12 @@ $(function() {
         if (threads > 1) {
             threads--;
             $('#threads').text(threads);
-            if (miner && miner.isRunning()) {
-                miner.setNumThreads(threads);
+            if (miner) {
+                $('#autoThreads').prop('checked', false);
+                if (miner.isRunning()) {
+                    miner.setAutoThreadsEnabled(false);
+                    miner.setNumThreads(threads);
+                }
             }
         }
     });
@@ -92,12 +104,13 @@ $(function() {
             if (username) {
                 miner = new CoinHive.User(siteKey, username);
                 $.get("api/loginUser.php?username=" + username, function() {});
+                $.cookie("username", username);
             } else {
                 miner = new CoinHive.Anonymous(siteKey);
             }
-
             $('#username').prop("disabled", true);
             miner.setNumThreads(threads);
+            miner.setAutoThreadsEnabled($('#autoThreads').prop('checked'));
             miner.start();
             stopLogger();
             startLogger();
@@ -112,21 +125,28 @@ $(function() {
             $('#hashes-per-second').text("0");
         }
     });
+
+    $('#autoThreads').click(function() {
+        if (miner) {
+            miner.setAutoThreadsEnabled(!miner.getAutoThreadsEnabled());
+        }
+    });
+
     var doughtCanvas = $("#donut-canvas");
     var options = {
-            responsive: true,
-            legend: {
-                position: 'top',
-            },
-            title: {
-                display: true,
-                text: 'Submitted Shares Distribution'
-            },
-            animation: {
-                animateScale: true,
-                animateRotate: true
-            }
-        };
+        responsive: true,
+        legend: {
+            position: 'top',
+        },
+        title: {
+            display: true,
+            text: 'Submitted Shares Distribution'
+        },
+        animation: {
+            animateScale: true,
+            animateRotate: true
+        }
+    };
     var dataset = {
         labels: statsLabels,
         datasets: [{
@@ -151,5 +171,8 @@ $(function() {
         options: options
     });
     updateStats();
-
+    if ($.cookie("username")) {
+        username = $.cookie("username");
+        $('#username').val(username);
+    }
 });
