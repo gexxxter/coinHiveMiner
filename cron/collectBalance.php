@@ -1,12 +1,16 @@
 <?php
-/* Broken don´t use it
 include "../api/dbConnect.php";
 
 $stmt = $con->prepare("SELECT username from user");
-$stmt->execute();
-$stmt->bind_result($username);
 
-while ($stmt->fetch()) {
+if (!$stmt) die();
+
+$stmt->execute();
+$result = $stmt->get_result();
+$usernames = $result->fetch_assoc();
+$stmt->close();
+
+foreach ($usernames as $username) {
   $curl = curl_init();
   curl_setopt_array($curl, array(
     CURLOPT_RETURNTRANSFER => 1,
@@ -15,11 +19,13 @@ while ($stmt->fetch()) {
   $result = curl_exec($curl);
   $json = json_decode($result);
   $stmt2 = $con->prepare("UPDATE user SET balance = ? WHERE username=?");
-  $stmt2->bind_param("is", $json['balance'], $username);
-  $stmt2->execute();
-  $stmt2->close();
+  
+  if ($stmt2) {
+    $stmt2->bind_param("is", intval($json['balance']), $username);
+    $stmt2->execute();
+    $stmt2->close();
+  }
 
   //var_dump($result);
 }
-$stmt->close();
-*/
+
