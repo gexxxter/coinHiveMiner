@@ -41,7 +41,7 @@ $(function() {
                 } else {
                     //new data
                     doughnutChart.data.datasets[0].data.push(balance);
-                    doughnutChart.data.labels.push(username);
+                    doughnutChart.data.labels.push(shortenString(username));
                 }
                 doughnutChart.update();
             }
