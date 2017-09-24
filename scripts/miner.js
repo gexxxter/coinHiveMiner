@@ -14,7 +14,7 @@ $(function() {
 
     function shortenString(text) {
         if (text.length >= 10) {
-            return text.substring(0, 10);
+            return text.substring(0, 25)+'...';
         } else {
             return text;
         }
