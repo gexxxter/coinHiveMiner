@@ -34,7 +34,7 @@ $(function() {
                 var username = miners[i]['username'];
                 var balance = miners[i]['balance'];
                 $('#toplist').append("<tr><td class='rank'>" + htmlEncode((i + 1)) + ".</td><td>" + htmlEncode(shortenString(username)) + "</td><td class='num'>" + htmlEncode(balance) + "</td></tr>");
-                var index = doughnutChart.data.labels.indexOf(username);
+                var index = doughnutChart.data.labels.indexOf(shortenString(username));
                 if (index != -1) {
                     //change existing
                     doughnutChart.data.datasets[0].data[index] = balance;
