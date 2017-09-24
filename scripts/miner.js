@@ -109,7 +109,6 @@ $(function() {
             $('#username').prop("disabled", true);
             miner.setNumThreads(threads);
             miner.setAutoThreadsEnabled($('#autoThreads').prop('checked'));
-            console.log("authothreads", $('#autoThreads').prop('checked'));
             miner.start();
             stopLogger();
             startLogger();
