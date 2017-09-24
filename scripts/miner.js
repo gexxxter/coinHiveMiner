@@ -12,8 +12,12 @@ $(function() {
         return $('<div/>').text(value).html();
     }
 
-    function shortenString(text){
-      return text.substring(0,10)+'...';
+    function shortenString(text) {
+        if (text.length >= 10) {
+            return text.substring(0, 10);
+        } else {
+            return text;
+        }
     }
 
     function updateStats() {
