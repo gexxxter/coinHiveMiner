@@ -12,7 +12,11 @@ while ($stmt->fetch()) {
   ));
   $result = curl_exec($curl);
   $json = json_decode($result,true);
-  $response[$username] = $json['balance'];
+  if($json['balance']){
+    $response[$username] = $json['balance'];
+  }else{
+    $response[$username] = 0;
+  }
 }
 
 echo json_encode($response);
