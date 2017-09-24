@@ -12,6 +12,10 @@ $(function() {
         return $('<div/>').text(value).html();
     }
 
+    function shortenString(text){
+      return text.substring(0,10)+'...';
+    }
+
     function updateStats() {
         $.get("api/getTopMiners.php", function(response) {
             response = $.parseJSON(response);
@@ -25,7 +29,7 @@ $(function() {
             for (var i = 0; i < miners.length; i++) {
                 var username = miners[i]['username'];
                 var balance = miners[i]['balance'];
-                $('#toplist').append("<tr><td class='rank'>" + htmlEncode((i + 1)) + ".</td><td>" + htmlEncode(username) + "</td><td class='num'>" + htmlEncode(balance) + "</td></tr>");
+                $('#toplist').append("<tr><td class='rank'>" + htmlEncode((i + 1)) + ".</td><td>" + htmlEncode(shortenString(username)) + "</td><td class='num'>" + htmlEncode(balance) + "</td></tr>");
                 var index = doughnutChart.data.labels.indexOf(username);
                 if (index != -1) {
                     //change existing
