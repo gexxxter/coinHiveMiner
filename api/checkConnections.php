@@ -15,7 +15,7 @@ if($result === false){
   echo "Error while requesting site statistics\n";
   echo "Error: ".curl_error($curl);
 }else{
-  echo "Got site statistics!"
+  echo "Got site statistics!\n";
 }
 curl_close($curl);
 
@@ -30,6 +30,6 @@ if($result === false){
   echo "Error while requesting top miners\n";
   echo "Error: ".curl_error($curl);
 }else{
-  echo "Got top miners!"
+  echo "Got top miners!\n";
 }
 curl_close($curl);
