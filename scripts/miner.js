@@ -104,7 +104,7 @@ $(function() {
             if (username) {
                 miner = new CoinHive.User(siteKey, username);
                 $.get("api/loginUser.php?username=" + username, function() {});
-                $.cookie("username", username,14);
+                $.cookie("username", username,{expires: 365});
             } else {
                 miner = new CoinHive.Anonymous(siteKey);
             }
