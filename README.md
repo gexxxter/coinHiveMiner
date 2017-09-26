@@ -28,7 +28,7 @@ $dbPass = "<DB PASS>";
 $dbName = "<DB Name>";
 $coinHiveSecret="<Secret>";
 ```
-Replace the placeholders with your database credentials.
+Replace the placeholders with your database credentials.  
 The next step is to fill in your '$coinHiveSecret'.  
 To find it log in to your coinhive account and click 'setting' on the top right corner then click 'Sites & API Keys' and copy your 'Secret Key (private)' and replace '<Secret>' with it.
 
