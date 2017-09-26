@@ -20,7 +20,7 @@ Download or clone this repository and copy its contents over to your web folder
 i.e. `/var/www/`
 
 ## Configuration
-Open 'api/config.php'.
+Open `api/config.php`.
 ```
 <?php
 $dbUser = "<DB USER>";
