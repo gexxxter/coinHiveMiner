@@ -1,5 +1,6 @@
 # coinHiveMiner
-UI for the https://coin-hive.com/ mining API.
+This is a small UI for the https://coin-hive.com/ mining API.
+
 
 # Demo
 A working example of the development branch can be found here:
