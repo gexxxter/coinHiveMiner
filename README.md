@@ -1,21 +1,43 @@
 # coinHiveMiner
 UI for the https://coin-hive.com/ mining API.
 
+# Demo
 A working example of the development branch can be found here:
 www.sbhmn.de/miner/index.html 
+Feel free to mine some hashes! ;)
 
 # Getting Started
 These instructions will get you a copy of the project up and running on your local machine or server.
 
 # Prerequisites
-* asd
-* sadasd
+* php  
+Tested on php7 but should work on almost all verions >= php5
+* mysql  
+no specific version needed
 
 # Installation
-Open api/config.php and fill in your database configuration.
+Download or clone this repository and copy its contents over to your web folder
+i.e. `/var/www/`
 
-Open scripts/miner.js and change siteKey to your coin-hive public key
+## Configuration
+Open 'api/config.php'.
+```
+<?php
+$dbUser = "<DB USER>";
+$dbPass = "<DB PASS>";
+$dbName = "<DB Name>";
+$coinHiveSecret="<Secret>";
+```
+Replace the placeholders with your database credentials.
+The next step is to fill in your '$coinHiveSecret'.  
+To find it log in to your coinhive account and click 'setting' on the top right corner then click 'Sites & API Keys' and copy your 'Secret Key (private)' and replace '<Secret>' with it.
 
+The last step is to configure your sitekey.  
+Open 'scripts/miner.js' and replace the key in this line
+```
+var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
+```
+with your 'Site Key (public)'.
 
 # Latest Release
 ![Screenshot latest release](https://user-images.githubusercontent.com/9130981/30785631-20366b26-a16a-11e7-8efb-dc7f403b1050.png)
