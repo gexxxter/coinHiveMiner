@@ -1,5 +1,5 @@
 <?php
-include "dbConnect.php";
+include "config.php";
 
   $curl = curl_init();
   curl_setopt_array($curl, array(
@@ -8,3 +8,4 @@ include "dbConnect.php";
   ));
   $result = curl_exec($curl);
   echo $result;
+  curl_close($curl);

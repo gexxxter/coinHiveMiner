@@ -13,3 +13,4 @@ foreach($json['users'] as $i => $values){
   $response[$values['name']] = htmlentities($values['total']);
 }
 echo json_encode($response);
+curl_close($curl);
