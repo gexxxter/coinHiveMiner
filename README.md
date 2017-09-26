@@ -30,14 +30,14 @@ $coinHiveSecret="<Secret>";
 ```
 Replace the placeholders with your database credentials.  
 The next step is to fill in your '$coinHiveSecret'.  
-To find it log in to your coinhive account and click 'setting' on the top right corner then click 'Sites & API Keys' and copy your 'Secret Key (private)' and replace '<Secret>' with it.
+To find it log in to your coinhive account and click `Setting` on the top right corner then click `Sites & API Keys` and copy your `Secret Key (private)` and replace '<Secret>' with it.
 
 The last step is to configure your sitekey.  
-Open 'scripts/miner.js' and replace the key in this line
+Open `scripts/miner.js` and replace the key in this line
 ```
 var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
 ```
-with your 'Site Key (public)'.
+with your `Site Key (public)`.
 
 # Latest Release
 ![Screenshot latest release](https://user-images.githubusercontent.com/9130981/30785631-20366b26-a16a-11e7-8efb-dc7f403b1050.png)
