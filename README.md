@@ -46,6 +46,7 @@ with your `Site Key (public)`.
 # Donations
 If you liked it und you want to buy me a beer, you can do so by sending monero to the walllet address below.  
 All monero recieved on this walletwill be transformed into beer. 
+
 **Monero wallet**:  
 49CVxsyj7RThAQhWCPFs18SRo4cDtWpdLTMKfT3DWxWdWqmKYvSa33tZWCgrqYVkq7BTmwQ1nFnriVLQsD7UEQoU7fFLcaw  
 
