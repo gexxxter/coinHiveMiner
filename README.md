@@ -46,4 +46,5 @@ with your `Site Key (public)`.
 # Donations
 **Monero wallet**:  
 49CVxsyj7RThAQhWCPFs18SRo4cDtWpdLTMKfT3DWxWdWqmKYvSa33tZWCgrqYVkq7BTmwQ1nFnriVLQsD7UEQoU7fFLcaw  
+
 Or get over at https://sbhmn.de/miner/ and donate a bit of your sweet CPU power.
