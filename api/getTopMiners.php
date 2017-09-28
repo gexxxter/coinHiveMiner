@@ -4,7 +4,7 @@ $response = array();
 $curl = curl_init();
 curl_setopt_array($curl, array(
     CURLOPT_RETURNTRANSFER => 1,
-    CURLOPT_URL => 'https://api.coin-hive.com/user/top?secret='.$coinHiveSecret.'&count=10'
+    CURLOPT_URL => 'https://api.coinhive.com/user/top?secret='.$coinHiveSecret.'&count=10'
 ));
 $result = curl_exec($curl);
 $json = json_decode($result,true);
@@ -13,3 +13,4 @@ foreach($json['users'] as $i => $values){
   $response[$values['name']] = htmlentities($values['total']);
 }
 echo json_encode($response);
+curl_close($curl);
