@@ -12,7 +12,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 # Prerequisites
 * php  
-Tested on php7 but should work on almost all verions >= php5
+Tested on php7 but should work on almost all verions > php5
 * mysql  
 no specific version needed
 
@@ -44,7 +44,7 @@ with your `Site Key (public)`.
 ![Screenshot latest release](https://user-images.githubusercontent.com/9130981/30785631-20366b26-a16a-11e7-8efb-dc7f403b1050.png)
 
 # Donations
-If you liked it und you want to buy me a beer, you can do so by sending monero to the walllet address below.  
+If you liked the project and you want to buy me a beer, you can do so by sending monero to the walllet address below.  
 All monero recieved on this wallet will be transformed into beer. 
 
 **Monero wallet**:  
