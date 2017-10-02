@@ -6,6 +6,9 @@ $(function() {
     var statsLabels;
     var statsData;
     var doughnutChart;
+    var doughtCanvas = $("#donut-canvas").toggle();
+    var barChart;
+    var barChartCanvas = $("#barchart-canvas");
     var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
 
     function htmlEncode(value) {
@@ -45,6 +48,10 @@ $(function() {
                 }
                 doughnutChart.update();
             }
+
+            //Hashrate Chart
+            barChart.data.datasets[0].data.push(miner.getHashesPerSecond());
+            barChart.data.datasets[0].labels.push("");
 
         });
 
@@ -132,8 +139,8 @@ $(function() {
         }
     });
 
-    var doughtCanvas = $("#donut-canvas");
-    var options = {
+
+    var doughnutOptions = {
         responsive: true,
         legend: {
             position: 'top',
@@ -164,12 +171,35 @@ $(function() {
                 '#808000' //OLIVE
             ]
         }]
-    }
+    };
+
+
+    var barChartOptions = {
+      label: 'Hashes'
+    };
+
     doughnutChart = new Chart(doughtCanvas, {
         type: 'doughnut',
         data: dataset,
-        options: options
+        options: doughnutOptions
     });
+
+
+var barChartData = {
+    labels:[],
+    datasets: [{
+      label: "Hashes/s",
+      backgroundColor: "grey",
+      data:[]
+    }],
+};
+
+    barChart = new Chart(barChartCanvas,{
+      type: 'line',
+      data:barChartData,
+      options: barChartOptions
+    });
+
     updateStats();
     if ($.cookie("username")) {
         username = $.cookie("username");
