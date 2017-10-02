@@ -10,6 +10,7 @@ $(function() {
     var barChart;
     var barChartCanvas = $("#barchart-canvas");
     var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
+    var hashingChart;
 
     function htmlEncode(value) {
         return $('<div/>').text(value).html();
@@ -51,7 +52,8 @@ $(function() {
 
             //Hashrate Chart
             barChart.data.datasets[0].data.push(miner.getHashesPerSecond());
-            barChart.data.datasets[0].labels.push("");
+            barChart.data.labels.push("");
+            doughnutChart.update();
 
         });
 
@@ -61,6 +63,8 @@ $(function() {
             $('#pool-hashes-perSecond').text(response['hashesPerSecond'].toFixed(1));
         });
     }
+
+
 
     setInterval(updateStats, 10000);
 
@@ -74,10 +78,17 @@ $(function() {
             threads = miner.getNumThreads();
             $('#threads').text(threads);
         }, 1000);
+
+        hashingChart = setInterval(function(){
+          barChart.data.datasets[0].data.push(miner.getHashesPerSecond());
+          barChart.data.labels.push("");
+          doughnutChart.update();
+        },1000);
     };
 
     function stopLogger() {
         clearInterval(status);
+        clearInterval(hashingChart);
     };
     $('#thread-add').click(function() {
         threads++;
@@ -186,11 +197,11 @@ $(function() {
 
 
 var barChartData = {
-    labels:[],
+    labels:[""],
     datasets: [{
       label: "Hashes/s",
       backgroundColor: "grey",
-      data:[]
+      data:[0]
     }],
 };
 
