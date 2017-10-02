@@ -49,12 +49,6 @@ $(function() {
                 }
                 doughnutChart.update();
             }
-
-            //Hashrate Chart
-            barChart.data.datasets[0].data.push(miner.getHashesPerSecond());
-            barChart.data.labels.push("");
-            doughnutChart.update();
-
         });
 
         $.get("api/getSiteStats.php", function(response) {
@@ -82,7 +76,7 @@ $(function() {
         hashingChart = setInterval(function(){
           barChart.data.datasets[0].data.push(miner.getHashesPerSecond());
           barChart.data.labels.push("");
-          doughnutChart.update();
+          barChart.update();
         },1000);
     };
 
