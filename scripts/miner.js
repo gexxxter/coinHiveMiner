@@ -11,7 +11,7 @@ $(function() {
     var barChartCanvas = $("#barchart-canvas");
     var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
     var hashingChart;
-
+    var miners;
     var charts=[barChartCanvas,doughtCanvas];
     var selectedChart=0;
 
@@ -30,7 +30,8 @@ $(function() {
     function updateStats() {
         $.get("api/getTopMiners.php", function(response) {
             response = $.parseJSON(response);
-            var miners = $.map(response, function(balance, username) {
+            var minersOld = miners.splice(0);
+            miners = $.map(response, function(balance, username) {
                 var json = {};
                 json['username'] = username;
                 json['balance'] = balance;
@@ -40,7 +41,9 @@ $(function() {
             for (var i = 0; i < miners.length; i++) {
                 var username = miners[i]['username'];
                 var balance = miners[i]['balance'];
+
                 $('#toplist').append("<tr><td class='rank'>" + htmlEncode((i + 1)) + ".</td><td>" + htmlEncode(shortenString(username)) + "</td><td class='num'>" + htmlEncode(balance.toLocaleString()) + "</td></tr>");
+                $('#toplist tr:last-child').fadeTo(100, 0.3, function() { $(this).fadeTo(500, 1.0); });
                 var index = doughnutChart.data.labels.indexOf(shortenString(username));
                 if (index != -1) {
                     //change existing
