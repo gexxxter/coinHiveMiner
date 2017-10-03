@@ -237,11 +237,11 @@ $(function() {
 
 
     var barChartData = {
-        labels: [""],
+        labels: [],
         datasets: [{
             label: "Hashes/s",
             backgroundColor: "grey",
-            data: [0]
+            data: []
         }],
     };
 
