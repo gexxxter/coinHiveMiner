@@ -46,7 +46,7 @@ $(function() {
 
                 $('#toplist').append("<tr><td class='rank'>" + htmlEncode((i + 1)) + ".</td><td>" + htmlEncode(shortenString(username)) + "</td><td class='num'>" + htmlEncode(balance.toLocaleString()) + "</td></tr>");
 
-                if (minersOld[i]['balance'] != balance) {
+                if (minersOld && minersOld[i]['balance'] != balance) {
                     $('#toplist tr:last-child').fadeTo(100, 0.3, function() {
                         $(this).fadeTo(500, 1.0);
                     });
