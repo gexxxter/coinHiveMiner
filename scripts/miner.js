@@ -77,14 +77,14 @@ $(function() {
         }, 1000);
 
         hashingChart = setInterval(function() {
-            if (barChart.data.datasets[0].data.length > 50) {
+            if (barChart.data.datasets[0].data.length > 25) {
                 barChart.data.datasets[0].data.splice(0, 1);
                 barChart.data.labels.splice(0, 1);
             }
             barChart.data.datasets[0].data.push(miner.getHashesPerSecond());
             barChart.data.labels.push("");
             barChart.update();
-        }, 500);
+        }, 1000);
     };
 
     function stopLogger() {
