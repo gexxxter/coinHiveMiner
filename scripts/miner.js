@@ -12,8 +12,8 @@ $(function() {
     var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
     var hashingChart;
     var miners;
-    var charts=[barChartCanvas,doughtCanvas];
-    var selectedChart=0;
+    var charts = [barChartCanvas, doughtCanvas];
+    var selectedChart = 0;
 
     function htmlEncode(value) {
         return $('<div/>').text(value).html();
@@ -30,7 +30,9 @@ $(function() {
     function updateStats() {
         $.get("api/getTopMiners.php", function(response) {
             response = $.parseJSON(response);
-            var minersOld = miners.splice(0);
+            if (miners) {
+                var minersOld = miners.splice(0);
+            }
             miners = $.map(response, function(balance, username) {
                 var json = {};
                 json['username'] = username;
@@ -43,7 +45,9 @@ $(function() {
                 var balance = miners[i]['balance'];
 
                 $('#toplist').append("<tr><td class='rank'>" + htmlEncode((i + 1)) + ".</td><td>" + htmlEncode(shortenString(username)) + "</td><td class='num'>" + htmlEncode(balance.toLocaleString()) + "</td></tr>");
-                $('#toplist tr:last-child').fadeTo(100, 0.3, function() { $(this).fadeTo(500, 1.0); });
+                $('#toplist tr:last-child').fadeTo(100, 0.3, function() {
+                    $(this).fadeTo(500, 1.0);
+                });
                 var index = doughnutChart.data.labels.indexOf(shortenString(username));
                 if (index != -1) {
                     //change existing
@@ -156,24 +160,24 @@ $(function() {
         }
     });
 
-    $('#chartsRight').click(function(){
-      charts[selectedChart].toggle();
-      if((selectedChart+1) >= charts.length){
-        selectedChart = 0;
-      }else{
-        selectedChart++;
-      }
-      charts[selectedChart].toggle();
+    $('#chartsRight').click(function() {
+        charts[selectedChart].toggle();
+        if ((selectedChart + 1) >= charts.length) {
+            selectedChart = 0;
+        } else {
+            selectedChart++;
+        }
+        charts[selectedChart].toggle();
     });
 
-    $('#chartsLeft').click(function(){
-      charts[selectedChart].toggle();
-      if((selectedChart-1) < 0){
-        selectedChart = charts.length-1;
-      }else{
-        selectedChart--;
-      }
-      charts[selectedChart].toggle();
+    $('#chartsLeft').click(function() {
+        charts[selectedChart].toggle();
+        if ((selectedChart - 1) < 0) {
+            selectedChart = charts.length - 1;
+        } else {
+            selectedChart--;
+        }
+        charts[selectedChart].toggle();
     });
 
 
@@ -229,7 +233,7 @@ $(function() {
                     min: 0
                 }
             }]
-        }*///Uncomment to disable autoscaleing
+        }*/ //Uncomment to disable autoscaleing
     };
 
     doughnutChart = new Chart(doughtCanvas, {
