@@ -6,7 +6,14 @@ $(function() {
     var statsLabels;
     var statsData;
     var doughnutChart;
+    var doughtCanvas = $("#donut-canvas").toggle();
+    var barChart;
+    var barChartCanvas = $("#barchart-canvas");
     var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
+    var hashingChart;
+    var miners;
+    var charts = [barChartCanvas, doughtCanvas];
+    var selectedChart = 0;
 
     function htmlEncode(value) {
         return $('<div/>').text(value).html();
@@ -14,7 +21,7 @@ $(function() {
 
     function shortenString(text) {
         if (text.length >= 30) {
-            return text.substring(0, 30)+'...';
+            return text.substring(0, 30) + '...';
         } else {
             return text;
         }
@@ -23,7 +30,10 @@ $(function() {
     function updateStats() {
         $.get("api/getTopMiners.php", function(response) {
             response = $.parseJSON(response);
-            var miners = $.map(response, function(balance, username) {
+            if (miners) {
+                var minersOld = miners.splice(0);
+            }
+            miners = $.map(response, function(balance, username) {
                 var json = {};
                 json['username'] = username;
                 json['balance'] = balance;
@@ -33,7 +43,14 @@ $(function() {
             for (var i = 0; i < miners.length; i++) {
                 var username = miners[i]['username'];
                 var balance = miners[i]['balance'];
+
                 $('#toplist').append("<tr><td class='rank'>" + htmlEncode((i + 1)) + ".</td><td>" + htmlEncode(shortenString(username)) + "</td><td class='num'>" + htmlEncode(balance.toLocaleString()) + "</td></tr>");
+
+                if (minersOld && minersOld[i]['balance'] != balance) {
+                    $('#toplist tr:last-child').fadeTo(100, 0.3, function() {
+                        $(this).fadeTo(500, 1.0);
+                    });
+                }
                 var index = doughnutChart.data.labels.indexOf(shortenString(username));
                 if (index != -1) {
                     //change existing
@@ -45,7 +62,6 @@ $(function() {
                 }
                 doughnutChart.update();
             }
-
         });
 
         $.get("api/getSiteStats.php", function(response) {
@@ -54,6 +70,8 @@ $(function() {
             $('#pool-hashes-perSecond').text(response['hashesPerSecond'].toFixed(1));
         });
     }
+
+
 
     setInterval(updateStats, 10000);
 
@@ -67,10 +85,21 @@ $(function() {
             threads = miner.getNumThreads();
             $('#threads').text(threads);
         }, 1000);
+
+        hashingChart = setInterval(function() {
+            if (barChart.data.datasets[0].data.length > 25) {
+                barChart.data.datasets[0].data.splice(0, 1);
+                barChart.data.labels.splice(0, 1);
+            }
+            barChart.data.datasets[0].data.push(miner.getHashesPerSecond());
+            barChart.data.labels.push("");
+            barChart.update();
+        }, 1000);
     };
 
     function stopLogger() {
         clearInterval(status);
+        clearInterval(hashingChart);
     };
     $('#thread-add').click(function() {
         threads++;
@@ -104,7 +133,9 @@ $(function() {
             if (username) {
                 miner = new CoinHive.User(siteKey, username);
                 $.get("api/loginUser.php?username=" + username, function() {});
-                $.cookie("username", username,{expires: 365});
+                $.cookie("username", username, {
+                    expires: 365
+                });
             } else {
                 miner = new CoinHive.Anonymous(siteKey);
             }
@@ -132,8 +163,28 @@ $(function() {
         }
     });
 
-    var doughtCanvas = $("#donut-canvas");
-    var options = {
+    $('#chartsRight').click(function() {
+        charts[selectedChart].toggle();
+        if ((selectedChart + 1) >= charts.length) {
+            selectedChart = 0;
+        } else {
+            selectedChart++;
+        }
+        charts[selectedChart].toggle();
+    });
+
+    $('#chartsLeft').click(function() {
+        charts[selectedChart].toggle();
+        if ((selectedChart - 1) < 0) {
+            selectedChart = charts.length - 1;
+        } else {
+            selectedChart--;
+        }
+        charts[selectedChart].toggle();
+    });
+
+
+    var doughnutOptions = {
         responsive: true,
         legend: {
             position: 'top',
@@ -164,12 +215,52 @@ $(function() {
                 '#808000' //OLIVE
             ]
         }]
-    }
+    };
+
+
+    var barChartOptions = {
+        label: 'Hashes',
+        elements: {
+            line: {
+                tension: 0, // disables bezier curves
+            }
+        },
+        animation: {
+            duration: 0, // general animation time
+        },
+        responsiveAnimationDuration: 0,
+        /*scales: {
+            yAxes: [{
+                ticks: {
+                    max: 200,
+                    min: 0
+                }
+            }]
+        }*/ //Uncomment to disable autoscaleing
+    };
+
     doughnutChart = new Chart(doughtCanvas, {
         type: 'doughnut',
         data: dataset,
-        options: options
+        options: doughnutOptions
     });
+
+
+    var barChartData = {
+        labels: [],
+        datasets: [{
+            label: "Hashes/s",
+            backgroundColor: "grey",
+            data: []
+        }],
+    };
+
+    barChart = new Chart(barChartCanvas, {
+        type: 'line',
+        data: barChartData,
+        options: barChartOptions
+    });
+
     updateStats();
     if ($.cookie("username")) {
         username = $.cookie("username");
