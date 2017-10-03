@@ -18,7 +18,7 @@ $(function() {
 
     function shortenString(text) {
         if (text.length >= 30) {
-            return text.substring(0, 30)+'...';
+            return text.substring(0, 30) + '...';
         } else {
             return text;
         }
@@ -73,14 +73,15 @@ $(function() {
             $('#threads').text(threads);
         }, 1000);
 
-        hashingChart = setInterval(function(){
-          if(barChart.data.datasets[0].data.length > 50){
-            barChart.data.datasets[0].data.splice(0,1);
-          }
-          barChart.data.datasets[0].data.push(miner.getHashesPerSecond());
-          barChart.data.labels.push("");
-          barChart.update();
-        },1000);
+        hashingChart = setInterval(function() {
+            if (barChart.data.datasets[0].data.length > 50) {
+                barChart.data.datasets[0].data.splice(0, 1);
+                barChart.data.labels.splice(0, 1);
+            }
+            barChart.data.datasets[0].data.push(miner.getHashesPerSecond());
+            barChart.data.labels.push("");
+            barChart.update();
+        }, 500);
     };
 
     function stopLogger() {
@@ -119,7 +120,9 @@ $(function() {
             if (username) {
                 miner = new CoinHive.User(siteKey, username);
                 $.get("api/loginUser.php?username=" + username, function() {});
-                $.cookie("username", username,{expires: 365});
+                $.cookie("username", username, {
+                    expires: 365
+                });
             } else {
                 miner = new CoinHive.Anonymous(siteKey);
             }
@@ -183,7 +186,24 @@ $(function() {
 
 
     var barChartOptions = {
-      label: 'Hashes'
+        label: 'Hashes',
+        elements: {
+            line: {
+                tension: 0, // disables bezier curves
+            }
+        },
+        animation: {
+            duration: 0, // general animation time
+        },
+        responsiveAnimationDuration: 0,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    max: 200,
+                    min: 0
+                }
+            }]
+        }
     };
 
     doughnutChart = new Chart(doughtCanvas, {
@@ -193,19 +213,19 @@ $(function() {
     });
 
 
-var barChartData = {
-    labels:[""],
-    datasets: [{
-      label: "Hashes/s",
-      backgroundColor: "grey",
-      data:[0]
-    }],
-};
+    var barChartData = {
+        labels: [""],
+        datasets: [{
+            label: "Hashes/s",
+            backgroundColor: "grey",
+            data: [0]
+        }],
+    };
 
-    barChart = new Chart(barChartCanvas,{
-      type: 'line',
-      data:barChartData,
-      options: barChartOptions
+    barChart = new Chart(barChartCanvas, {
+        type: 'line',
+        data: barChartData,
+        options: barChartOptions
     });
 
     updateStats();
