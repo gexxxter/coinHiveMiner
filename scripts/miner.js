@@ -196,14 +196,14 @@ $(function() {
             duration: 0, // general animation time
         },
         responsiveAnimationDuration: 0,
-        scales: {
+        /*scales: {
             yAxes: [{
                 ticks: {
                     max: 200,
                     min: 0
                 }
             }]
-        }
+        }*///Uncomment to disable autoscaleing
     };
 
     doughnutChart = new Chart(doughtCanvas, {
