@@ -12,6 +12,9 @@ $(function() {
     var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
     var hashingChart;
 
+    var charts=[barChartCanvas,doughtCanvas];
+    var selectedChart=0;
+
     function htmlEncode(value) {
         return $('<div/>').text(value).html();
     }
@@ -148,6 +151,26 @@ $(function() {
         if (miner) {
             miner.setAutoThreadsEnabled(!miner.getAutoThreadsEnabled());
         }
+    });
+
+    $('#chartsRight').click(function(){
+      charts[selectedChart].toggle();
+      if((selectedChart+1) >= charts.length){
+        selectedChart = 0;
+      }else{
+        selectedChart++;
+      }
+      charts[selectedChart].toggle();
+    });
+
+    $('#chartsLeft').click(function(){
+      charts[selectedChart].toggle();
+      if((selectedChart-1) < 0){
+        selectedChart = charts.length-1;
+      }else{
+        selectedChart--;
+      }
+      charts[selectedChart].toggle();
     });
 
 

@@ -191,3 +191,7 @@ th, td { text-align: left; }
 th.num, td.num { text-align: right; }
 th.rank, td.rank { text-align: right; color: #555; }
 th { color: #555; text-transform: uppercase; font-weight: normal; font-size:12px;}
+
+.alignRight{
+	float:right;
+}
