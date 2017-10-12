@@ -23,7 +23,7 @@ curl_close($curl);
 $curl = curl_init();
 curl_setopt_array($curl, array(
     CURLOPT_RETURNTRANSFER => 1,
-    CURLOPT_URL => 'https://api.coi-hive.com/user/top?secret='.$coinHiveSecret.'&count=10'
+    CURLOPT_URL => 'https://api.coinhive.com/user/top?secret='.$coinHiveSecret.'&count=10'
 ));
 $result = curl_exec($curl);
 if($result === false){
