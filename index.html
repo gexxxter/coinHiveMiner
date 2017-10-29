@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <script src="scripts/coinhive.min.js"></script>
+    <script src="https://authedmine.com/lib/authedmine.min.js"></script>
     <script src="scripts/jquery-3.2.1.min.js"></script>
     <script src="scripts/miner.js?v1"></script>
     <script src="scripts/jquery.cookie-1.4.1.min.js"></script>
@@ -44,8 +44,14 @@
 <div class="row">
     <input class="text" type="text" id="username" placeholder="Username optional">
 </div>
+<div class="row alignRight">
+  <h2><span class="action" id="chartsLeft">< </span> <span class="action" id="chartsRight"> ></span></h2>
+</div>
 <div class="row">
     <canvas id="donut-canvas" class="stats" width="100%" height="100%"></canvas>
+</div>
+<div class="row">
+    <canvas id="barchart-canvas" class="stats" width="100%" height="100%"></canvas>
 </div>
 <button id="start">Start</button>
 

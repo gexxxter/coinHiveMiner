@@ -15,7 +15,7 @@ foreach ($usernames as $username) {
   $curl = curl_init();
   curl_setopt_array($curl, array(
     CURLOPT_RETURNTRANSFER => 1,
-    CURLOPT_URL => 'https://api.coin-hive.com/user/balance?secret='.$coinHiveSecret.'&name='.$username
+    CURLOPT_URL => 'https://api.coinhive.com/user/balance?secret='.$coinHiveSecret.'&name='.$username
   ));
   $result = curl_exec($curl);
   $json = json_decode($result, true);
