@@ -68,7 +68,7 @@ $(function() {
             response = $.parseJSON(response);
             $('#pool-hashes').text(response['hashesTotal'].toLocaleString());
             $('#pool-hashes-perSecond').text(response['hashesPerSecond'].toFixed(1));
-            $.each(response['history'], function (data){
+            $.each(response['history'], function (key, data){
               weeklyChart.data.datasets[0].data.push(data['hashesTotal']);
               weeklyChart.data.labels.push(data['time']);
             });
@@ -269,7 +269,7 @@ $(function() {
         labels: [],
         datasets: [{
             label: "Hashes/s",
-            backgroundColor: "grey",
+            backgroundColor: "blue",
             data: []
         }],
     };
