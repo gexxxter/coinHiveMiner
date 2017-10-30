@@ -79,7 +79,9 @@ $(function() {
         clearArray(weeklyChart.data.labels);
         $.each(history, function(key, data) {
           weeklyChart.data.datasets[0].data.push(data['hashesPerSecond']);
-          weeklyChart.data.labels.push(data['time']);
+          var date = new Date(data['time']*1000);
+
+          weeklyChart.data.labels.push(date.getDate()+"."+date.getMonth()+1);
         });
         weeklyChart.update();
       }
@@ -285,7 +287,7 @@ $(function() {
       options: {
         title: {
           display: true,
-          text: 'Submitted Shares Distribution'
+          text: 'H/s last week'
         }
       }
     }],
