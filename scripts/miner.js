@@ -72,6 +72,7 @@ $(function() {
               weeklyChart.data.datasets[0].data.push(data['hashesTotal']);
               weeklyChart.data.labels.push(data['time']);
             });
+            weeklyChart.update();
         });
     }
 
