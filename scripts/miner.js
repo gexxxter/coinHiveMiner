@@ -27,9 +27,9 @@ $(function() {
     }
   }
 
-function clearArray(arr){
-  arr.splice(0, arr.length);
-}
+  function clearArray(arr) {
+    arr.splice(0, arr.length);
+  }
 
   function updateStats() {
     $.get("api/getTopMiners.php", function(response) {
@@ -78,7 +78,7 @@ function clearArray(arr){
         clearArray(weeklyChart.data.datasets[0].data);
         clearArray(weeklyChart.data.labels);
         $.each(history, function(key, data) {
-          weeklyChart.data.datasets[0].data.push(data['hashesTotal']);
+          weeklyChart.data.datasets[0].data.push(data['hashesPerSecond']);
           weeklyChart.data.labels.push(data['time']);
         });
         weeklyChart.update();
@@ -281,7 +281,13 @@ function clearArray(arr){
     datasets: [{
       label: "Hashes/s",
       backgroundColor: "blue",
-      data: []
+      data: [],
+      options: {
+        title: {
+          display: true,
+          text: 'Submitted Shares Distribution'
+        }
+      }
     }],
   };
 
