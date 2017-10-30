@@ -74,7 +74,7 @@ function clearArray(arr){
       $('#pool-hashes-perSecond').text(response['hashesPerSecond'].toFixed(1));
       var historyLength = response['history'].length;
       var history = response['history'];
-      if (history[historyLength - 1]['time'] == weeklyChart.data.labels[weeklyChart.data.labels.length - 1]) {
+      if (history[historyLength - 1]['time'] != weeklyChart.data.labels[weeklyChart.data.labels.length - 1]) {
         clearArray(weeklyChart.data.datasets[0].data);
         clearArray(weeklyChart.data.labels);
         $.each(history, function(key, data) {
