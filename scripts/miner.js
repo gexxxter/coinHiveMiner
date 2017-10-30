@@ -5,14 +5,14 @@ $(function() {
     var status;
     var statsLabels;
     var statsData;
-    var doughnutChart;
     var doughtCanvas = $("#donut-canvas").toggle();
-    var barChart;
+    var barChart, weeklyChart, doughnutChart;
     var barChartCanvas = $("#barchart-canvas");
+    var weeklyCanvas = $("#weekly-canvas").toggle();
     var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
     var hashingChart;
     var miners;
-    var charts = [barChartCanvas, doughtCanvas];
+    var charts = [barChartCanvas, doughtCanvas, weeklyCanvas];
     var selectedChart = 0;
 
     function htmlEncode(value) {
@@ -68,6 +68,10 @@ $(function() {
             response = $.parseJSON(response);
             $('#pool-hashes').text(response['hashesTotal'].toLocaleString());
             $('#pool-hashes-perSecond').text(response['hashesPerSecond'].toFixed(1));
+            $.each(response['history'], function (data){
+              weeklyChart.data.datasets[0].data.push(data['hashesTotal']);
+              weeklyChart.data.labels.push(data['time']);
+            });
         });
     }
 
@@ -229,14 +233,14 @@ $(function() {
             duration: 0, // general animation time
         },
         responsiveAnimationDuration: 0,
-        /*scales: {
+        scales: {
             yAxes: [{
                 ticks: {
                     max: 200,
                     min: 0
                 }
             }]
-        }*/ //Uncomment to disable autoscaleing
+        }
     };
 
     doughnutChart = new Chart(doughtCanvas, {
@@ -259,6 +263,21 @@ $(function() {
         type: 'line',
         data: barChartData,
         options: barChartOptions
+    });
+
+    var weeklyChartData = {
+        labels: [],
+        datasets: [{
+            label: "Hashes/s",
+            backgroundColor: "grey",
+            data: []
+        }],
+    };
+
+
+    weeklyChart = new Chart(weeklyCanvas, {
+        type: 'line',
+        data: weeklyChartData
     });
 
     updateStats();
