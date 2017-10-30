@@ -79,9 +79,14 @@ $(function() {
         clearArray(weeklyChart.data.labels);
         $.each(history, function(key, data) {
           weeklyChart.data.datasets[0].data.push(data['hashesPerSecond']);
-          var date = new Date(data['time']*1000);
+          var date = new Date(data['time'] * 1000);
+          var label = date.getDate() + "." + (date.getMonth() + 1);
+          if (!$.inArray(label, weeklyChart.data.labels)) {
+            weeklyChart.data.labels.push(label);
+          }else{
+            weeklyChart.data.labels.push("");
+          }
 
-          weeklyChart.data.labels.push(date.getDate()+"."+date.getMonth()+1);
         });
         weeklyChart.update();
       }
