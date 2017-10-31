@@ -294,8 +294,10 @@ $(function() {
     labels: [],
     datasets: [{
       label: "Hashes/s",
-      backgroundColor: "blue",
+      backgroundColor: '#9a9a9a',
       data: [],
+      fill:false,
+      borderColor:'#c0c0c0'
     }],
   };
 
