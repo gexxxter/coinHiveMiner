@@ -1,4 +1,5 @@
 $(function() {
+  $('#threads').text(navigator.hardwareConcurrency);
   var threads = $('#threads').text();
   var miner;
   var username;
