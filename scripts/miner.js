@@ -84,7 +84,7 @@ $(function() {
         clearArray(weeklyChart.data.datasets[0].data);
         clearArray(weeklyChart.data.labels);
         $.each(history, function(key, data) {
-          weeklyChart.data.datasets[0].data.push(data['hashesPerSecond']);
+          weeklyChart.data.datasets[0].data.push(data['hashesPerSecond'].toFixed(1));
           var date = new Date(data['time'] * 1000);
           var label = date.getDate() + "." + (date.getMonth() + 1);
           if (weeklyChart.data.labels.length == 0 || $.inArray(label, weeklyChart.data.labels) == -1) {
