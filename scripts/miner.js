@@ -72,6 +72,12 @@ $(function() {
       response = $.parseJSON(response);
       $('#pool-hashes').text(response['hashesTotal'].toLocaleString());
       $('#pool-hashes-perSecond').text(response['hashesPerSecond'].toFixed(1));
+    });
+  }
+
+  function updateWeeklyStats() {
+    $.get("api/getSiteStats.php", function(response) {
+      response = $.parseJSON(response);
       var historyLength = response['history'].length;
       var history = response['history'];
       if (history[historyLength - 1]['time'] != weeklyChart.data.labels[weeklyChart.data.labels.length - 1]) {
@@ -83,7 +89,7 @@ $(function() {
           var label = date.getDate() + "." + (date.getMonth() + 1);
           if (weeklyChart.data.labels.length == 0 || $.inArray(label, weeklyChart.data.labels) == -1) {
             weeklyChart.data.labels.push(label);
-          }else{
+          } else {
             weeklyChart.data.labels.push("");
           }
 
@@ -96,6 +102,7 @@ $(function() {
 
 
   setInterval(updateStats, 10000);
+  setInterval(updateWeeklyStats, 300 * 1000);
 
   function startLogger() {
     status = setInterval(function() {
@@ -289,22 +296,26 @@ $(function() {
       label: "Hashes/s",
       backgroundColor: "blue",
       data: [],
-      options: {
-        title: {
-          display: true,
-          text: 'H/s last week'
-        }
-      }
     }],
   };
 
 
   weeklyChart = new Chart(weeklyCanvas, {
     type: 'line',
-    data: weeklyChartData
+    data: weeklyChartData,
+    options: {
+      title: {
+        display: true,
+        text: 'H/s last week'
+      },
+      legend: {
+        position: 'top',
+      }
+    }
   });
 
   updateStats();
+  updateWeeklyStats();
   if ($.cookie("username")) {
     username = $.cookie("username");
     $('#username').val(username);
