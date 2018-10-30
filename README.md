@@ -22,7 +22,7 @@ i.e. `/var/www/`
 
 ## Configuration
 Open `api/config.php`.
-```
+```php
 <?php
 $dbUser = "<DB USER>";
 $dbPass = "<DB PASS>";
@@ -35,7 +35,7 @@ To find it log in to your coinhive account and click `Setting` on the top right 
 
 The last step is to configure your sitekey.  
 Open `scripts/miner.js` and replace the key in this line
-```
+```js
 var siteKey = "IQHaechLpoNlho4NmXatRn4iPyQEhDmP"; //Change to your address
 ```
 with your `Site Key (public)`.
