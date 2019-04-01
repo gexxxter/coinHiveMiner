@@ -1,3 +1,5 @@
+# This project is discontinued and should only be used for educational purposes.
+
 # coinHiveMiner
 This is a small UI for the https://coin-hive.com/ mining API.
 
